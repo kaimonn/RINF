@@ -1,0 +1,343 @@
+/* =============================================
+   COMPARISON.CSS
+   Onglets [Détails | Voies N] + tableau de comparaison dans .bottom-details
+============================================= */
+
+/* ── Surcharge de .bottom-details en mode onglets ────────────────────────── */
+.bottom-details:has(.cp-tabs) {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 0;
+}
+
+/* ── Barre d'onglets ─────────────────────────────────────────────────────── */
+.cp-tabs {
+    display: flex;
+    flex-shrink: 0;
+    border-bottom: 2px solid #ddd;
+    background: #f7f9fc;
+}
+
+.cp-tab-btn {
+    padding: 6px 16px;
+    font-size: 12px;
+    border: none;
+    border-bottom: 3px solid transparent;
+    background: transparent;
+    color: #666;
+    cursor: pointer;
+    margin-bottom: -2px;
+    white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
+}
+
+.cp-tab-btn:hover {
+    color: #2c3e50;
+    border-bottom-color: #bdc3c7;
+}
+
+.cp-tab-btn--active {
+    color: #2471a3;
+    border-bottom-color: #3498db;
+    font-weight: 600;
+}
+
+.cp-tab-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    background: #3498db;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: bold;
+    margin-left: 4px;
+    vertical-align: middle;
+}
+
+/* ── Panneaux d'onglets ──────────────────────────────────────────────────── */
+.cp-panel {
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    flex: 1;
+    min-height: 0;
+}
+
+.cp-panel--active {
+    display: flex;
+}
+
+/* Panneau "Détails" : restaurer le comportement de bottom_bar.css */
+#cp-panel-details {
+    overflow-y: auto;
+    padding: 4px 12px;
+}
+
+/* ── En-tête du tableau de comparaison ───────────────────────────────────── */
+.comparison-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 12px;
+    background: #f7f9fc;
+    border-bottom: 1px solid #e0e4ea;
+    flex-shrink: 0;
+    gap: 12px;
+}
+
+.comparison-title {
+    font-size: 12px;
+    color: #2c3e50;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.comparison-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.comparison-filter-label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: #555;
+    cursor: pointer;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.comparison-export-btn {
+    padding: 3px 8px;
+    font-size: 11px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    background: #fff;
+    cursor: pointer;
+    color: #34495e;
+    white-space: nowrap;
+    transition: border-color 0.2s, color 0.2s;
+}
+
+.comparison-export-btn:hover {
+    border-color: #3498db;
+    color: #3498db;
+}
+
+/* ── Badges récapitulatifs ───────────────────────────────────────────────── */
+.comparison-diff-badge,
+.comparison-same-badge {
+    padding: 3px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.comparison-diff-badge {
+    color: #c0392b;
+    background: #fdf2f2;
+    border-bottom: 1px solid #f5c6cb;
+}
+
+.comparison-same-badge {
+    color: #27ae60;
+    background: #f0faf4;
+    border-bottom: 1px solid #b7e4c7;
+}
+
+/* ── Tableau ─────────────────────────────────────────────────────────────── */
+.comparison-table-wrapper {
+    overflow: auto;
+    flex: 1;
+    min-height: 0;
+}
+
+/* ── Tableau ─────────────────────────────────────────────────────────────── */
+.comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    table-layout: fixed;  /* auto → fixed に変更：列幅を制御可能にする */
+}
+
+.comparison-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #ecf0f1;
+    padding: 5px 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+    font-weight: 600;
+    color: #2c3e50;
+    white-space: nowrap;  /* ヘッダー行は折り返しなし（見出しは1行で）*/
+    /* 列幅は .comparison-param-col と各値列で制御 */
+}
+
+.col-resize-handle {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    cursor: col-resize;
+    user-select: none;
+    z-index: 1;
+    border-right: 2px solid transparent;
+    transition: border-color 0.15s;
+}
+
+.col-resize-handle:hover,
+.col-resize-handle--active {
+    border-right-color: #2c3e50;
+}
+
+.comparison-table td {
+    padding: 4px 10px;
+    border: 1px solid #eee;
+    text-align: center;
+    vertical-align: top;      /* middle → top：折り返し時に上揃え */
+    white-space: normal;      /* nowrap → normal に変更：折り返しを許可 */
+    word-break: break-word;   /* 追加：長い単語・コードも折り返す */
+    max-width: 0;             /* table-layout:fixed 時に width を効かせるために必要 */
+}
+
+/* Colonne des paramètres — sticky à gauche */
+.comparison-param-col {
+    text-align: left !important;
+    font-size: 11px;
+    color: #444;
+    background: #fafafa;
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    border-right: 2px solid #ddd !important;
+    width: 160px;             /* min-width → width に変更 */
+    white-space: normal;      /* パラメータ名も折り返し可 */
+    word-break: break-word;
+}
+
+thead .comparison-param-col { z-index: 3; }
+
+.comparison-row-diff .comparison-param-col {
+    color: #c0392b;
+    font-weight: 600;
+}
+
+.comparison-table tbody tr:hover td              { background-color: #f0f4f8; }
+.comparison-table tbody tr:hover .comparison-param-col { background-color: #eaf1f8; }
+
+.comparison-cell-diff {
+    background-color: #fde8e8 !important;
+    color: #c0392b;
+    font-weight: 600;
+}
+
+.comparison-cell-missing {
+    color: #bbb;
+    font-style: italic;
+}
+
+/* ── 比較トグルUI ─────────────────────────────────────────────────── */
+
+.cmp-toggle-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.cmp-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border: 1.5px solid #94a3b8;
+    border-radius: 20px;
+    background: #f8fafc;
+    color: #475569;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+    white-space: nowrap;
+}
+
+.cmp-toggle-btn:hover {
+    border-color: #f97316;
+    color: #f97316;
+}
+
+.cmp-toggle-btn--active {
+    background: #fff7ed;
+    border-color: #f97316;
+    color: #ea580c;
+}
+
+.cmp-toggle-icon {
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.cmp-toggle-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 9px;
+    background: #f97316;
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.cmp-clear-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border: none;
+    border-radius: 50%;
+    background: #e2e8f0;
+    color: #64748b;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.cmp-clear-btn:hover {
+    background: #fca5a5;
+    color: #b91c1c;
+}
+
+#bottom-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 10px;
+    border-bottom: 1px solid #e2e8f0;
+    background: #f8fafc;
+    min-height: 36px;
+    flex-shrink: 0;
+}
+
+.comparison-type-mismatch {
+    color: #b45309;
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+}

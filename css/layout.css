@@ -1,0 +1,167 @@
+/* =============================================
+   LAYOUT.CSS
+   Structure globale – positionnement et dimensions
+   (flex, hauteurs, largeurs, conteneurs)
+============================================= */
+
+/* =============================================
+   1. RÉINITIALISATION
+============================================= */
+html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+/* =============================================
+   2. CONTENEUR PRINCIPAL (2 colonnes)
+============================================= */
+#container {
+    display: flex;
+    flex-direction: row;
+    flex: 1 1 auto;
+    min-height: 0; /* Permet le rétrécissement des enfants */
+}
+
+/* =============================================
+   3. COLONNE GAUCHE (Carte)
+============================================= */
+#map-area { flex: 1 1 auto; display: flex; flex-direction: column; min-width: 0; }
+#map {
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+/* =============================================
+   4. BARRE DE REDIMENSIONNEMENT VERTICALE
+   (entre la carte et le panneau inférieur)
+============================================= */
+#bottom-resizer {
+    flex: 0 0 6px;
+    cursor: row-resize;
+    background: transparent;
+    position: relative;
+}
+
+#bottom-resizer::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 2px;
+    background: #ccc;
+    transform: translateY(-50%);
+}
+
+/* =============================================
+   5. PANNEAU INFÉRIEUR (Bottom Bar)
+============================================= */
+#bottom-info {
+    flex: 0 0 180px;
+    min-height: 80px;
+    max-height: 90vh;
+    border-top: 2px solid #ccc;
+    background: #fafafa;
+    overflow: hidden; /* Le défilement interne est géré par bottom_bar.css */
+}
+
+#bottom-info-content {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    min-height: 0;
+    box-sizing: border-box;
+}
+
+/* =============================================
+   6. COLONNE DROITE (Sidebar)
+============================================= */
+#sidebar {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    min-height: 0;
+    position: relative;
+    overflow: visible;
+}
+
+/* Bloc de recherche (fixe, non défilant) */
+#sidebar-search {
+    flex: 0 0 auto;
+    padding: 12px;
+}
+
+/* PARAMÈTRES GRAPHIQUES (défilant) */
+#sidebar-graphics {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    min-height: 0;
+    padding: 0 12px 12px;
+}
+
+/* =============================================
+   7. OVERLAY DE CHARGEMENT
+============================================= */
+#loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.25);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+#loading-overlay.visible {
+    display: flex;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #fff;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+}
+
+.loading-message {
+    margin-left: 12px;
+    color: #fff;
+    font-weight: bold;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* =============================================
+   8. RÉPONSIF (Mobile)
+============================================= */
+@media (max-width: 768px) {
+    #container {
+        flex-direction: column;
+    }
+
+    #sidebar {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 100% !important;
+        border-left: none;
+        border-top: 1px solid #ccc;
+    }
+
+    #bottom-info {
+        flex: 0 0 120px;
+    }
+}

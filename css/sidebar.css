@@ -1,0 +1,846 @@
+/* =============================================
+   SIDEBAR.CSS
+   Styles dédiés au panneau latéral (sidebar)
+   - Paramètres graphiques (SOL/OP)
+   - Hiérarchie et titres
+   - Tables et contrôles
+============================================= */
+
+/* =============================================
+   0. STYLES DE BASE
+============================================= */
+#sidebar {
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #fff;
+    border-left: 1px solid #ddd;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* =============================================
+   1. REDIMENSIONNEMENT (Resizer)
+============================================= */
+#sidebar-resizer {
+    position: absolute;
+    left: -4px;
+    top: 0;
+    width: 8px;
+    height: 100%;
+    cursor: col-resize;
+    z-index: 10;
+    background: transparent;
+}
+
+#sidebar-resizer::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background: #ccc;
+    transform: translateX(-50%);
+}
+
+/* =============================================
+   2. PARAMÈTRES GRAPHIQUES (SOL/OP)
+============================================= */
+/* Panneau principal */
+.graphic-parameters-panel {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+/* En-tête du panneau */
+.graphic-parameters-summary {
+    padding: 10px 15px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: #f7f7f7;
+    border-radius: 4px 4px 0 0;
+    list-style: none;
+    user-select: none;
+}
+
+.graphic-parameters-summary::-webkit-details-marker {
+    display: none;
+}
+
+.graphic-parameters-summary::after {
+    display: none;
+}
+
+.graphic-parameters-summary::before {
+    content: '▶ ';
+    font-size: 0.8em;
+}
+
+.graphic-parameters-panel[open] > .graphic-parameters-summary::before {
+    content: '▼ ';
+}
+
+/* Contenu du panneau */
+.graphic-parameters-content {
+    padding: 15px;
+    border: none;
+    border-radius: 0;
+    background-color: #fff;
+}
+
+/* Sélecteur de mode couleur */
+.color-mode-label {
+    display: block;
+    color: #000;
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 10px;
+    margin-bottom: 4px;
+}
+
+.color-mode-dropdown {
+    width: 100%;
+    padding: 10px 36px 10px 12px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+}
+
+.color-mode-dropdown:hover {
+    border-color: #95a5a6;
+    background-color: #f8f9fa;
+}
+
+.color-mode-dropdown:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.color-mode-dropdown option {
+    padding: 8px;
+}
+
+.color-mode-dropdown option.color-mode-option-missing {
+    color: #a0a0a0;
+    opacity: 0.65;
+    background-color: #f5f5f5;
+    text-decoration: line-through;
+}
+
+.color-mode-dropdown option.color-mode-option-missing:hover {
+    background-color: #efefef;
+}
+
+/* Paramètre actuel */
+.mode-style-current-param {
+    margin: 4px 0 8px;
+    padding: 4px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.mode-style-current-param .param-label {
+    display: inline-flex;
+    align-items: center;
+    font-weight: 600;
+    font-size: 14px;
+    color: #000;
+}
+
+.mode-style-current-param .param-reference {
+    font-size: 11px;
+    color: #666;
+    margin-top: 2px;
+}
+
+/* Indicateur multi-valeurs */
+.multi-value-indicator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #f39c12;
+    color: #fff;
+    font-size: 11px;
+    font-weight: bold;
+    margin-left: 6px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.multi-value-info {
+    margin: 4px 0 8px;
+}
+
+.multi-value-info-body {
+    padding: 8px 10px;
+    background-color: #fff8e6;
+    border-left: 3px solid #f39c12;
+    border-radius: 3px;
+    font-size: 12px;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* =============================================
+   2bis. ÉDITEUR DE SEUILS NUMÉRIQUES
+============================================= */
+.breaks-editor {
+    margin: 8px 0 12px;
+    padding: 8px 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background-color: #fafafa;
+    font-size: 12px;
+}
+
+.breaks-editor-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.breaks-editor-title {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 12px;
+}
+
+.break-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 6px;
+}
+
+.break-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.break-value-input {
+    flex: 1;
+    min-width: 0;
+    padding: 3px 4px;
+    font-size: 12px;
+    border: 1px solid #bdc3c7;
+    border-radius: 3px;
+    text-align: right;
+}
+
+.break-remove-btn {
+    border: none;
+    background: #e74c3c;
+    color: #fff;
+    font-size: 11px;
+    border-radius: 3px;
+    padding: 0 6px;
+    cursor: pointer;
+}
+
+.break-remove-btn:hover {
+    background: #c0392b;
+}
+
+.break-add-btn,
+.break-reset-btn {
+    border: 1px solid #bdc3c7;
+    background: #fff;
+    color: #34495e;
+    font-size: 11px;
+    border-radius: 3px;
+    padding: 2px 6px;
+    cursor: pointer;
+}
+
+.break-add-btn:hover,
+.break-reset-btn:hover {
+    border-color: #3498db;
+    color: #3498db;
+}
+
+/* Éditeur de valeurs spéciales */
+.specials-editor {
+    margin: 8px 0 12px;
+    padding: 8px 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background: #fafafa;
+    font-size: 12px;
+}
+
+.special-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 6px;
+}
+
+.special-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.special-value-input {
+    width: 80px;
+    padding: 3px 4px;
+    font-size: 12px;
+    border: 1px solid #bdc3c7;
+    border-radius: 3px;
+    text-align: right;
+}
+
+.special-label-input {
+    flex: 1;
+    padding: 3px 4px;
+    font-size: 12px;
+    border: 1px solid #bdc3c7;
+    border-radius: 3px;
+}
+
+.special-remove-btn {
+    border: none;
+    background: #e74c3c;
+    color: #fff;
+    font-size: 11px;
+    border-radius: 3px;
+    padding: 0 6px;
+    cursor: pointer;
+}
+
+.special-remove-btn:hover {
+    background: #c0392b;
+}
+
+.special-add-btn,
+.special-reset-btn {
+    border: 1px solid #bdc3c7;
+    background: #fff;
+    color: #34495e;
+    font-size: 11px;
+    border-radius: 3px;
+    padding: 2px 6px;
+    cursor: pointer;
+}
+
+.special-add-btn:hover,
+.special-reset-btn:hover {
+    border-color: #3498db;
+    color: #3498db;
+}
+
+/* =============================================
+   3. LISTE DES CATÉGORIES
+============================================= */
+.categories-list {
+    margin-top: 1rem;
+}
+
+.mode-style-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 6px;
+    padding: 4px 0;
+}
+
+.mode-style-row:last-child {
+    margin-bottom: 0;
+}
+
+.mode-style-label {
+    flex: 1;
+    font-size: 13px;
+    color: #2c3e50;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mode-style-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.mode-style-color {
+    width: 30px;
+    height: 20px;
+    padding: 0;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    background-color: transparent;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.width-control-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.mode-style-controls .width-control-group {
+    pointer-events: none;
+}
+
+.mode-style-controls .width-control-group input {
+    pointer-events: auto;
+}
+
+.mode-style-select-all .width-control-group {
+    margin-left: auto;
+}
+
+.mode-style-width {
+    width: 90px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.mode-style-number {
+    width: 46px;
+    padding: 3px 4px;
+    font-size: 12px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    text-align: right;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.global-width-slider {
+    width: 80px;
+    cursor: pointer;
+}
+
+.global-width-input {
+    width: 40px;
+    padding: 3px 4px;
+    font-size: 12px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.drag-handle {
+    cursor: grab;
+    padding: 0 6px;
+    color: #999;
+    user-select: none;
+}
+
+.mode-style-row.dragging {
+    opacity: 0.4;
+}
+
+.mode-style-row.drag-over {
+    border-top: 2px solid #0066cc;
+}
+
+.mode-style-select-all {
+    margin-bottom: 8px;
+    padding: 8px 0;
+}
+
+.mode-style-divider {
+    margin: 8px 0;
+    border: none;
+    border-top: 1px solid #ddd;
+}
+
+.sidebar-select-all-checkbox {
+    margin-right: 4px;
+    cursor: pointer;
+}
+
+/* =============================================
+   3b. SÉLECTEUR DE PALETTE
+============================================= */
+.palette-picker-wrapper {
+    position: relative;
+    flex-shrink: 0;
+}
+
+/* Bouton d'ouverture */
+.palette-picker-btn {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 3px 6px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    background: #fff;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    height: 26px;
+}
+
+.palette-picker-btn:hover {
+    border-color: #3498db;
+}
+
+/* Échantillons de couleur */
+.palette-btn-swatch {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.palette-btn-gradient {
+    display: inline-block;
+    width: 60px;
+    height: 12px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+
+/* Popover */
+.palette-picker-popover {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 6px);
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 6px;
+    z-index: 100;
+    min-width: 200px;
+}
+
+/* Options de palette */
+.palette-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.15s;
+    border: 2px solid transparent;
+}
+
+.palette-option:hover {
+    background-color: #f0f4f8;
+}
+
+.palette-option-active {
+    border-color: #3498db;
+    background-color: #eaf4fd;
+}
+
+.palette-option-swatches {
+    display: flex;
+    gap: 2px;
+    flex-shrink: 0;
+}
+
+.palette-swatch {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 2px;
+}
+
+.palette-option-gradient {
+    width: 80px;
+    height: 14px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+
+.palette-option-label {
+    font-size: 12px;
+    color: #2c3e50;
+    white-space: nowrap;
+}
+
+/* Bouton d'inversion de dégradé */
+.palette-reverse-btn {
+    margin-left: 4px;
+    padding: 2px 6px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 11px;
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.palette-reverse-btn:hover {
+    border-color: #3498db;
+    color: #3498db;
+}
+
+.palette-reverse-btn.active {
+    background-color: #eaf4fd;
+    border-color: #3498db;
+    color: #3498db;
+}
+
+/* =============================================
+   4. TITRES ET HIÉRARCHIE
+============================================= */
+#sidebar h2,
+#sidebar h3,
+#sidebar h4,
+#sidebar h5 {
+    margin-top: 0;
+    color: #2c3e50;
+}
+
+#sidebar h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+#sidebar h3 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #3498db;
+}
+
+#sidebar h4 {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+#sidebar h5 {
+    font-size: 13px;
+    font-weight: bold;
+    margin: 10px 0 6px;
+    color: #34495e;
+}
+
+#sidebar hr {
+    margin: 15px 0;
+    border: none;
+    border-top: 1px solid #ddd;
+}
+
+/* =============================================
+   5. TABLEAUX
+============================================= */
+#sidebar table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+
+#sidebar table td {
+    padding: 6px 8px;
+    vertical-align: top;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+#sidebar table tr:last-child td {
+    border-bottom: none;
+}
+
+#sidebar table td:first-child,
+#sidebar .param-name {
+    font-weight: 500;
+    color: #555;
+    width: 40%;
+}
+
+#sidebar table td:not(:first-child),
+#sidebar .param-value {
+    color: #222;
+}
+
+/* =============================================
+   6. STRUCTURE HIÉRARCHIQUE (details/summary)
+============================================= */
+details {
+    margin-bottom: 8px;
+}
+
+details > summary {
+    padding: 8px 12px;
+    cursor: pointer;
+    font-weight: 500;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    display: block;
+    position: relative;
+    user-select: none;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+details > summary:hover {
+    background-color: #e8f4f8;
+    border-color: #3498db;
+}
+
+details > summary::-webkit-details-marker {
+    display: none;
+}
+
+details:not(.graphic-parameters-panel) > summary::after {
+    content: '+';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #7f8c8d;
+    transition: color 0.2s ease;
+}
+
+details:not(.graphic-parameters-panel)[open] > summary::after {
+    content: '-';
+    color: #2c3e50;
+}
+
+details:not(.graphic-parameters-panel) > div {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    background-color: #fff;
+}
+
+/* =============================================
+   7. NIVEAUX D'INDENTATION
+============================================= */
+.nest-level-1  { margin-left: 0; }
+.nest-level-2  { margin-left: 16px; }
+.nest-level-3  { margin-left: 32px; }
+.nest-level-4  { margin-left: 48px; }
+.nest-level-5  { margin-left: 64px; }
+.nest-level-6  { margin-left: 80px; }
+.nest-level-7  { margin-left: 96px; }
+.nest-level-8  { margin-left: 112px; }
+.nest-level-9  { margin-left: 128px; }
+.nest-level-10 { margin-left: 144px; }
+
+.nest-level-4,
+.nest-level-5,
+.nest-level-6,
+.nest-level-7,
+.nest-level-8,
+.nest-level-9,
+.nest-level-10 {
+    border-left: 2px dashed #d0d0d0;
+    padding-left: 12px;
+}
+
+.nest-level-1 > summary { background-color: #f8f9fa; }
+.nest-level-2 > summary { background-color: #f1f3f5; }
+.nest-level-3 > summary { background-color: #ebedef; }
+.nest-level-4 > summary { background-color: #e6e9ec; }
+.nest-level-5 > summary { background-color: #e1e4e7; }
+
+.nest-level-2 { border-left: 2px solid #f0f0f0; }
+.nest-level-3 { border-left: 2px solid #e8e8e8; }
+.nest-level-4 { border-left: 2px solid #e0e0e0; }
+.nest-level-5 { border-left: 2px solid #d8d8d8; }
+
+/* =============================================
+   8. CONTRÔLE DES TRAITS OP
+============================================= */
+.op-stroke-control {
+    margin: 8px 0 12px;
+    padding: 8px 10px;
+    background-color: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+.op-stroke-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #2c3e50;
+    cursor: pointer;
+    user-select: none;
+}
+
+.op-stroke-label input[type="checkbox"] {
+    cursor: pointer;
+    width: 14px;
+    height: 14px;
+}
+
+.op-stroke-options {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-left: 22px;
+}
+
+.op-stroke-options-hidden {
+    display: none;
+}
+
+.op-stroke-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.op-stroke-sublabel {
+    font-size: 12px;
+    color: #555;
+    width: 60px;
+    flex-shrink: 0;
+}
+
+/* =============================================
+   9. ADAPTATION MOBILE
+============================================= */
+@media (max-width: 768px) {
+    .color-mode-dropdown {
+        font-size: 13px;
+        padding: 8px 10px;
+    }
+
+    #sidebar h2 {
+        font-size: 16px;
+    }
+
+    #sidebar h3 {
+        font-size: 14px;
+    }
+
+    #sidebar table,
+    #sidebar .param-name,
+    #sidebar .param-value {
+        font-size: 12px;
+    }
+}

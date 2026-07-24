@@ -1,0 +1,808 @@
+/* =============================================
+   BOTTOM_BAR.CSS
+   Panneau inférieur : structure + détails
+   (SOL / OP / Ligne / STI)
+============================================= */
+
+/* =============================================
+   1. LAYOUT – Répartition horizontale
+   Conteneur du panneau inférieur (#bottom-info)
+============================================= */
+#bottom-info-content {
+    /* Layout (flex, direction, height) géré dans layout.css */
+    gap: 12px;
+    padding: 8px 12px;
+    box-sizing: border-box;
+}
+
+/* Panneau gauche : arbre de structure */
+.bottom-structure {
+    flex: 0 0 auto;
+    width: 300px;      /* largeur initiale (modifiable en JS) */
+    min-width: 200px;  /* largeur minimale */
+    overflow-y: auto;
+    border-right: 1px solid #ddd;
+    padding-right: 12px;
+    font-size: 13px;
+    box-sizing: border-box;
+}
+
+/* Barre de redimensionnement horizontal au centre */
+.bottom-split-resizer {
+    flex: 0 0 4px;
+    cursor: col-resize;
+    background: #e0e0e0;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}
+
+.bottom-split-resizer:hover {
+    background: #d0d0d0;
+}
+
+/* Panneau droit : détails */
+.bottom-details {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    min-width: 260px;  /* largeur minimale du panneau de détails */
+    padding: 4px 12px;
+    box-sizing: border-box;
+    line-height: 1.5;
+}
+
+/* =============================================
+   2. ARBRE DE STRUCTURE (panneau gauche)
+============================================= */
+/* UL racine de l'arbre */
+.structure-tree {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+/* Chaque nœud de l'arbre */
+.tree-node {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 6px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.tree-node:hover {
+    background: #f0f4f8;
+}
+
+.tree-node.active {
+    background: #e8f4f8;
+    font-weight: 600;
+}
+
+/* Nœud racine (niveau 0) */
+.tree-root {
+    font-weight: bold;
+}
+
+/* Indentation par niveau */
+.structure-tree .tree-node {
+    margin-left: 16px;
+}
+.structure-tree .tree-node.level-0 {
+    margin-left: 0;
+}
+
+/* Icône de bascule (▶ / ▼) */
+.tree-toggle {
+    font-size: 10px;
+    color: #999;
+    width: 12px;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.tree-toggle-placeholder {
+    width: 12px;
+    flex-shrink: 0;
+}
+
+/* Libellé et badge à droite */
+.tree-label {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tree-badge {
+    font-size: 11px;
+    padding: 1px 5px;
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+
+.tree-badge.full {
+    background: #d4edda;
+    color: #155724;
+}
+
+.tree-badge.partial {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.tree-badge.zero {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* =============================================
+   3. TITRES ET EN-TÊTES (panneau droit)
+============================================= */
+/* Titre de bloc simple (niveau local) */
+.flat-node-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 12px 0 6px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Sous-sections (petites en-têtes) */
+.flat-section-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #555;
+    margin: 14px 0 4px;
+    padding: 4px 0 4px 8px;
+    border-left: 3px solid #bbb;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* Titre de niveau supérieur dans le panneau de détails (ex: "Infrastructure") */
+.bottom-details > .flat-node-title {
+    font-size: 18px;
+    margin: 8px 0 12px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #3498db;
+}
+
+/* Sous-sections importantes dans le panneau de détails */
+.bottom-details .flat-section-title {
+    font-size: 14px;
+    color: #34495e;
+    margin: 20px 0 8px 0;
+    padding-bottom: 5px;
+    border-bottom: 1px dashed #bdc3c7;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Titres pour Tronçon / Voie / OP */
+.troncon-basic-title,
+.track-basic-title,
+.section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 10px 0 6px 0;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #3498db;
+}
+
+/* =============================================
+   4. BLOCS DE DESCRIPTION (paramètres, STI, etc.)
+============================================= */
+/* Description en tête de panneau de détails */
+.bottom-details .param-node-description {
+    font-size: 13px;
+    color: #555;
+    background: #f4f9ff;
+    border-left: 3px solid #3498db;
+    padding: 8px 12px;
+    margin: 12px 0;
+    border-radius: 0 4px 4px 0;
+}
+
+/* Description générique de nœud de paramètre (utilisée dans STI/paramètres) */
+.param-node-description {
+    font-size: 0.9em;
+    color: #7f8c8d;
+    margin-bottom: 10px;
+    padding: 8px;
+    background-color: #f0f8ff;
+    border-left: 3px solid #2980b9;
+    border-radius: 3px;
+}
+
+/* =============================================
+   5. TABLES – Styles de base
+============================================= */
+.param-table,
+.basic-properties-table,
+.track-info-table,
+.line-info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+    font-size: 13px;
+}
+
+.param-table tr,
+.basic-properties-table tr,
+.track-info-table tr,
+.line-info-table tr {
+    border-bottom: 1px solid #ecf0f1;
+}
+
+.param-table tr:last-child,
+.basic-properties-table tr:last-child,
+.track-info-table tr:last-child,
+.line-info-table tr:last-child {
+    border-bottom: none;
+}
+
+.param-table td,
+.basic-properties-table td,
+.track-info-table td,
+.line-info-table td {
+    padding: 8px 4px;
+    vertical-align: top;
+}
+
+/* Colonne "nom de paramètre" (à gauche) */
+.param-table .param-name,
+.basic-properties-table .param-name,
+.track-info-table .param-name,
+.line-info-table .param-name {
+    width: 45%;
+    font-weight: 500;
+    color: #34495e;
+}
+
+.param-table .param-label {
+    display: block;
+}
+
+/* Référence RINF */
+.param-table .param-reference {
+    font-size: 11px;
+    font-weight: 400;
+    color: #7f8c8d;
+    margin-top: 2px;
+}
+
+.param-table .param-reference a {
+    color: #2980b9;
+    text-decoration: none;
+}
+
+.param-table .param-reference a:hover {
+    text-decoration: underline;
+}
+
+/* Colonne "valeur" (à droite) */
+.param-table .param-value,
+.basic-properties-table .param-value,
+.track-info-table .param-value,
+.line-info-table .param-value {
+    color: #2c3e50;
+    word-break: break-word;
+}
+
+/* =============================================
+   6. VALEURS SPÉCIALES & "NOT APPLICABLE"
+============================================= */
+/* Valeurs vides ou non applicables */
+.param-table .param-empty,
+.param-table .param-not-applicable,
+.basic-properties-table .param-empty,
+.basic-properties-table .param-not-applicable,
+.track-info-table .param-empty,
+.track-info-table .param-not-applicable,
+.line-info-table .param-empty,
+.line-info-table .param-not-applicable {
+    color: #95a5a6;
+    font-style: italic;
+}
+
+/* Classe générique "non applicable" (hors tables) */
+.param-not-applicable {
+    color: #6c757d;
+    font-style: italic;
+}
+
+/* Lignes marquées comme non applicables */
+.param-table tr.not-applicable,
+.basic-properties-table tr.not-applicable,
+.track-info-table tr.not-applicable,
+.line-info-table tr.not-applicable {
+    background: #f9f9f9;
+}
+
+.param-table tr.not-applicable .param-name,
+.basic-properties-table tr.not-applicable .param-name,
+.track-info-table tr.not-applicable .param-name,
+.line-info-table tr.not-applicable .param-name {
+    color: #7f8c8d;
+}
+
+/* Survol d'une ligne non applicable */
+tr.not-applicable {
+    opacity: 0.7;
+}
+
+tr.not-applicable:hover {
+    opacity: 1;
+    background-color: #f8f9fa;
+}
+
+/* =============================================
+   7. BLOCS VOIES (Track blocks)
+============================================= */
+.tracks-container {
+    margin-top: 15px;
+}
+
+.track-block {
+    margin-bottom: 12px;
+}
+
+.track-summary {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 14px;
+}
+
+.track-content {
+    margin-top: 8px;
+}
+
+.track-basic-info {
+    margin-bottom: 15px;
+}
+
+.track-basic-title {
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #34495e;
+}
+
+/* Table d'info voie (spécifique) */
+.track-info-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.track-info-table tr td {
+    padding: 6px 8px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.track-info-table tr:last-child td {
+    border-bottom: none;
+}
+
+.track-info-table td:first-child {
+    font-weight: 500;
+    color: #555;
+    width: 50%;
+}
+
+.track-info-table td:last-child {
+    color: #222;
+}
+
+.track-sti-section {
+    margin-top: 10px;
+}
+
+.track-item {
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #f9f9f9;
+    border-left: 3px solid #3498db;
+    border-radius: 3px;
+}
+
+/* =============================================
+   8. BLOCS STI
+============================================= */
+.sti-block {
+    margin-bottom: 10px;
+}
+
+.sti-summary,
+.param-node-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-weight: 600;
+    color: #2980b9;
+    font-size: 13px;
+}
+
+.summary-label {
+    flex: 1;
+}
+
+.sti-content {
+    padding: 10px 0;
+}
+
+.sti-description {
+    font-size: 0.9em;
+    color: #7f8c8d;
+    margin-bottom: 10px;
+    padding: 8px;
+    background-color: #f0f8ff;
+    border-left: 3px solid #2980b9;
+    border-radius: 3px;
+}
+
+/* =============================================
+   9. BLOCS DE SECTION (SOL/OP/Ligne)
+============================================= */
+.section-block {
+    margin-bottom: 10px;
+}
+
+.section-block > summary {
+    font-weight: 500;
+    color: #16a085;
+    font-size: 13px;
+}
+
+.section-content {
+    padding: 8px 0;
+}
+
+.section-info {
+    margin-bottom: 20px;
+}
+
+.sections-list {
+    margin-top: 15px;
+}
+
+.sections-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.sections-list li {
+    padding: 8px;
+    margin-bottom: 4px;
+    background: #f5f5f5;
+    border-left: 3px solid #95a5a6;
+    border-radius: 3px;
+    transition: all 0.2s;
+}
+
+.sections-list li:hover {
+    background: #e8f4f8;
+    border-left-color: #3498db;
+    cursor: pointer;
+}
+
+/* =============================================
+   10. GROUPES DE PARAMÈTRES
+============================================= */
+.param-group {
+    margin-bottom: 15px;
+    border-left: 2px dotted #a0a0a0;
+    padding-left: 10px;
+    margin-left: 20px;
+}
+
+.param-list {
+    margin: 0;
+    padding-left: 20px;
+    list-style: disc;
+}
+
+.param-list li {
+    margin: 3px 0;
+}
+
+.param-label {
+    color: #000;
+    font-weight: 500;
+}
+
+.param-reference {
+    font-size: 0.75em;
+    color: #999;
+    font-style: italic;
+    margin-top: 5px;
+}
+
+.param-name {
+    font-weight: 500;
+    color: #555;
+}
+
+.param-value {
+    color: #222;
+}
+
+/* =============================================
+   11. INFORMATIONS SUPPLÉMENTAIRES
+============================================= */
+.additional-info {
+    margin-top: 8px;
+    border-left: 1px dotted #ddd;
+    padding-left: 10px;
+    margin-left: 20px;
+}
+
+.additional-info-body {
+    padding: 8px;
+    background-color: #f9f9f9;
+    border-radius: 0 0 3px 3px;
+    font-size: 0.9em;
+    line-height: 1.4;
+}
+
+/* =============================================
+   12. INFORMATIONS LIGNE
+============================================= */
+.line-info {
+    padding: 15px;
+}
+
+.line-info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+    font-size: 13px;
+}
+
+.line-info-table tr td {
+    padding: 8px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.line-info-table tr:last-child td {
+    border-bottom: none;
+}
+
+.line-info-table td:first-child {
+    font-weight: 500;
+    color: #555;
+    width: 45%;
+}
+
+.line-info-table td:last-child {
+    color: #222;
+}
+
+.line-info-hint {
+    padding: 10px;
+    background-color: #e8f4f8;
+    border-left: 4px solid #3498db;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #2c3e50;
+    margin-top: 10px;
+}
+
+.line-overview {
+    margin-bottom: 20px;
+}
+
+/* =============================================
+   13. ÉTATS VIDES (Empty states)
+============================================= */
+.empty-state {
+    color: #7f8c8d;
+    text-align: center;
+    padding: 20px;
+}
+
+.empty-state h2 {
+    color: #2c3e50;
+    text-align: left;
+}
+
+.placeholder {
+    color: #95a5a6;
+    font-style: italic;
+}
+
+.no-data {
+    color: #95a5a6;
+    font-style: italic;
+    margin: 10px 0;
+}
+
+.no-params {
+    color: #95a5a6;
+    font-style: italic;
+    padding: 10px;
+    text-align: center;
+}
+
+/* =============================================
+   14. BADGES (compteurs de paramètres)
+============================================= */
+.param-count-badge {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    letter-spacing: 0.20em;
+    margin-right: 15px;
+    cursor: help;
+}
+
+.param-count-badge.full {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.param-count-badge.partial {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+}
+
+.param-count-badge.zero {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Infobulle au survol (utilise l'attribut title) */
+.param-count-badge::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    white-space: pre;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    margin-bottom: 5px;
+}
+
+.param-count-badge:hover::after {
+    opacity: 1;
+}
+
+/* =============================================
+   15. LIENS OP / LIGNE (icônes 🔗)
+============================================= */
+.op-info,
+.line-info-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.op-info-label,
+.line-info-label {
+    white-space: nowrap;
+}
+
+/* Icône de lien vers un OP */
+.op-link-icon {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    color: #2980b9;
+    font-size: 13px;
+    line-height: 1;
+}
+
+.op-link-icon:hover {
+    color: #1a5276;
+}
+
+/* Icône de lien vers une ligne */
+.line-link-icon {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    color: #2980b9;
+    font-size: 13px;
+    line-height: 1;
+}
+
+.line-link-icon:hover {
+    color: #1a5276;
+}
+
+/* =============================================
+   16. BOUTONS DE MODE DE RECHERCHE
+   (Tronçon / Ligne / OP – utilisés dans le bloc de recherche)
+============================================= */
+.search-mode-toggle {
+    display: flex;
+    gap: 6px;
+}
+
+.search-mode-btn {
+    flex: 1;
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    background: #f7f7f7;
+    cursor: pointer;
+}
+
+.search-mode-btn.active {
+    background: #e0e0ff;
+    border-color: #666;
+    font-weight: bold;
+}
+
+
+
+
+tr.param-row-active {
+    background-color: rgba(52, 152, 219, 0.10);
+    border-left: 3px solid #3498db;
+}
+
+tr.param-row-active .param-color-toggle-btn {
+    opacity: 1;
+    color: #3498db;
+    border-color: #3498db;                   /* ← アクティブ時は青ボーダー */
+}
+
+
+
+
+
+.param-color-toggle-btn,
+.tree-zoom-icon,
+.op-link-icon,
+.line-link-icon {   /* ← 追加 */
+    background: none;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    padding: 1px 4px;
+    margin-left: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    vertical-align: middle;
+    line-height: 1;
+    transition: opacity 0.15s, border-color 0.15s;
+}
+
+.param-color-toggle-btn { opacity: 0.5; }
+.tree-zoom-icon         { opacity: 0.6; }
+.op-link-icon           { opacity: 0.6; }
+.line-link-icon         { opacity: 0.6; }  /* ← 追加 */
+
+.param-color-toggle-btn:hover,
+.tree-zoom-icon:hover,
+.op-link-icon:hover,
+.line-link-icon:hover {   /* ← 追加 */
+    opacity: 1;
+    border-color: rgba(0, 0, 0, 0.5);
+}

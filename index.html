@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Titre explicite : Application de visualisation des données RINF (Réseau Interopérable Ferré National) -->
+    <title>Visualisateur RINF</title>
+
+    <!-- Intégration de Leaflet pour la cartographie -->
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+
+    <!-- Feuille de style principale -->
+    <link rel="stylesheet" href="main.css">
+    <!-- Style de la barre latérale -->
+    <link rel="stylesheet" href="css/sidebar.css">
+    <!-- Style de la barre inférieure -->
+    <link rel="stylesheet" href="css/bottom_bar.css">
+    <link rel="stylesheet" href="css/comparison.css">
+    <!-- Style de la mise en page -->
+    <link rel="stylesheet" href="css/layout.css">
+</head>
+<body>
+    <!-- Conteneur principal de l'application -->
+    <div id="container">
+        <!-- Zone principale : Carte + Informations en bas -->
+        <div id="map-area">
+            <!-- Carte interactive Leaflet pour l'affichage des données RINF -->
+            <div id="map"></div>
+
+            <!-- Gestionnaire de redimensionnement vertical entre la carte et les informations -->
+            <div id="bottom-resizer"></div>
+
+            <!-- Panneau d'informations en bas de l'écran -->
+            <div id="bottom-info">
+
+                <div id="bottom-toolbar">
+                    <!-- 比較トグルボタンがここに挿入される -->
+                </div>
+                <div id="bottom-info-content">
+                    <!-- Panneau de structure ferroviaire (à gauche) -->
+                    <div class="bottom-structure"></div>
+
+                    <!-- Séparateur redimensionnable entre les panneaux -->
+                    <div id="bottom-split-resizer" class="bottom-split-resizer"></div>
+
+                    <!-- Panneau de détails des éléments sélectionnés (à droite) -->
+                    <div class="bottom-details"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Barre latérale droite : Outils de recherche et paramètres -->
+        <div id="sidebar">
+            <div id="sidebar-search">
+                <!-- Bloc de recherche avec différentes options -->
+                <details class="search-block" open>
+                    <summary>Rechercher sur la carte</summary>
+
+                    <!-- Sélecteur de mode de recherche -->
+                    <div class="search-mode-toggle" style="margin-bottom:10px;">
+                        <button class="search-mode-btn active" data-mode="ligne">Ligne</button>
+                        <button class="search-mode-btn" data-mode="op">Point opérationnel (OP)</button>
+                        <button class="search-mode-btn" data-mode="solpk">Section de ligne (PK)</button>
+                    </div>
+
+                    <!-- Mode de recherche par code de ligne -->
+                    <div id="search-mode-ligne">
+                        <div class="search-group">
+                            <h4 style="margin-bottom:6px;">Par Code de ligne</h4>
+                            <div class="search-row-inline">
+                                <div style="position: relative; flex-grow: 1;">
+                                    <input type="text" id="search-input"
+                                           placeholder="Code de ligne (ex: 123000-1)">
+                                    <div id="suggestions" class="suggestions"></div>
+                                </div>
+                                <button id="search-button">Rechercher</button>
+                            </div>
+                            <div class="search-hint">
+                                Recherche de toutes les sections pour un code de ligne.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mode de recherche par identifiant ou nom de point opérationnel -->
+                    <div id="search-mode-op" style="display:none;">
+                        <div class="search-group">
+                            <h4 style="margin-bottom:6px;">Par UniqueOPID ou nom</h4>
+                            <div class="search-row-inline">
+                                <div style="position: relative; flex-grow: 1;">
+                                    <input type="text" id="op-uniqueid-input"
+                                           placeholder="ID ou nom (ex: FR0000006125, Lauterbourg)">
+                                    <div id="op-uniqueid-suggestions" class="suggestions"></div>
+                                </div>
+                                <button id="op-uniqueid-search-button">Rechercher</button>
+                            </div>
+                            <div class="search-hint">
+                                La saisie filtre sur l'UniqueOPID <strong>et</strong> le nom
+                                (selon le type d'OP), la sélection recentre la carte.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mode de recherche par point kilométrique -->
+                    <div id="search-mode-solpk" style="display:none;">
+                        <div class="search-group">
+                            <h4 style="margin-bottom:6px;">Par point kilométrique (PK)</h4>
+                            <div class="search-row-inline">
+                                <div style="position: relative; flex-grow: 1;">
+                                    <input type="text" id="sol-km-line-input"
+                                           placeholder="Ligne (ex: 420000-1)">
+                                    <div id="sol-km-line-suggestions" class="suggestions"></div>
+                                </div>
+                            </div>
+                            <div class="search-row-inline" style="margin-top: 6px;">
+                                <div style="position: relative; flex-grow: 1;">
+                                    <input type="text" id="sol-km-value-input"
+                                           placeholder="PK (ex: 55.493)">
+                                    <div id="sol-km-value-suggestions" class="suggestions"></div>
+                                </div>
+                                <button id="sol-km-search-button">Rechercher</button>
+                            </div>
+                            <div class="search-hint">
+                                Trouve la section de ligne qui contient le PK indiqué.
+                            </div>
+                        </div>
+                    </div>
+                </details>
+                <hr>
+            </div>
+
+            <!-- Paramètres graphiques pour la visualisation SOL et OP -->
+            <div id="sidebar-graphics">
+                <div id="sol-graphic-parameters-panel"></div>
+                <div id="op-graphic-parameters-panel"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay de chargement affiché pendant le chargement des données -->
+    <div id="loading-overlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-message">Chargement en cours...</div>
+    </div>
+
+    <!-- Intégration de la bibliothèque Leaflet pour la cartographie -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+
+    <!-- Script principal de l'application -->
+    <script type="module" src="./js/main.js"></script>
+</body>
+</html>

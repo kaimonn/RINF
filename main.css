@@ -1,0 +1,269 @@
+/*main.css
+
+/* =============================================
+   Styles de la zone de recherche
+============================================= */
+.search-group {
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+
+.search-group h3 {
+    display: block;
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 8px;
+    margin-top: 0;
+}
+
+.search-group input[type="text"] {
+    padding: 6px;
+    font-size: 13px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.search-group button {
+    padding: 6px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+}
+
+.search-group button:hover {
+    background-color: #e0e0e0;
+}
+
+.search-hint {
+    margin-top: 4px;
+    color: #777;
+    font-size: 12px;
+}
+
+/* Inline layout for "Recherche par code" */
+.search-row-inline {
+    display: flex;
+    align-items: center;
+    gap: 6px; /* ★★★ margin の代わりに gap を使用 ★★★ */
+}
+
+.search-row-inline input {
+    flex-grow: 1;
+}
+
+/* Stacked layout for "Recherche par OP" */
+.search-row {
+    margin-bottom: 8px;
+    position: relative; /* ★★★ 重要：これがないと suggestions が正しく配置されない ★★★ */
+}
+
+.search-row input {
+    width: 100%;
+    padding: 6px;
+    box-sizing: border-box;
+}
+
+.search-row:last-child {
+    margin-bottom: 0;
+}
+
+/* Make OP search button full width */
+#op-search-button {
+    width: 100%;
+}
+
+/* Blocs de recherche dans le sidebar */
+.search-block {
+    margin-bottom: 8px;
+}
+
+.search-block > summary {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* =============================================
+   Styles des suggestions (autocomplétion)
+   ★★★ 統一したスタイル定義 ★★★
+============================================= */
+.suggestions {
+    position: absolute;
+    top: 100%;              /* input の直下 */
+    left: 0;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-top: none;       /* input との境界を自然に */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    max-height: 200px;
+    overflow-y: auto;
+    font-size: 13px;
+    display: none;          /* デフォルトは非表示 */
+    z-index: 1000;          /* 他の要素より前面に */
+    margin: 0;              /* ★★★ margin-top を削除 ★★★ */
+}
+
+/* Élément de suggestion */
+.suggestion-item {
+    padding: 8px 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+/* Au survol d'un élément de suggestion */
+.suggestion-item:hover {
+    background: #e8f4f8;
+    color: #2c3e50;
+}
+/* =============================================
+   Styles de la légende
+============================================= */
+.legend {
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    font-size: 13px;
+    max-width: 280px;
+    max-height: 40vh;       /* 高さ制限を追加 */
+    overflow-y: auto;      /* スクロールを追加 */
+}
+
+/* Titre de la légende */
+.legend h4 {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    font-weight: bold;
+    position: sticky;      /* スクロール時に固定 */
+    top: 0;
+    background: white;
+    padding-top: 5px;
+    z-index: 10;
+}
+/* Groupe d'éléments de légende */
+.legend-group {
+    margin-top: 12px;
+    margin-bottom: 4px;
+}
+
+/* Élément de légende */
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+/* Élément d'en-tête de groupe de légende */
+.legend-item.group-header {
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+/* Sous-élément de légende (indenté) */
+.legend-item.sub-item {
+    margin-left: 15px;
+}
+
+/* Barre de couleur du sous-élément */
+.legend-item.sub-item .legend-color {
+    margin-left: 20px;
+}
+
+/* Cases à cocher (checkboxes) */
+.legend-item input[type="checkbox"] {
+    margin-right: 6px;
+    cursor: pointer;
+    -webkit-appearance: checkbox;
+    appearance: checkbox;
+}
+
+/* Case à cocher de groupe */
+.group-checkbox {
+    transform: scale(1.1);
+    margin-right: 8px;
+}
+
+/* Barre de couleur */
+.legend-color {
+    width: 20px;
+    height: 3px;
+    display: inline-block;
+    margin-right: 6px;
+    border: 1px solid rgba(0,0,0,0.2);
+}
+
+/* Texte de l'étiquette */
+.legend-label {
+    font-size: 12px;
+    flex: 1;
+    vertical-align: middle;
+}
+
+/* 全選択行のスタイル */
+.legend-select-all {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.select-all-checkbox {
+    transform: scale(1.2);
+}
+/* 区切り線 */
+.legend-divider {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 8px 0;
+}
+
+
+/* どこかの CSS に追加 */
+.leaflet-tooltip.structure-point-label {
+    background: rgba(255,255,255,0.9);
+    border: 1px solid #ff7800;
+    padding: 2px 4px;
+    font-size: 11px;
+}
+
+.visibility-toggles {
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    font-size: 12px;
+}
+
+.sol-visibility-toggle,
+.op-visibility-toggle {
+    margin-bottom: 4px;
+}
+
+.sol-visibility-toggle:last-child,
+.op-visibility-toggle:last-child {
+    margin-bottom: 0;
+}
+
+.sol-toggle-label-wrapper,
+.op-toggle-label-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.sol-toggle-checkbox,
+.op-toggle-checkbox {
+    margin: 0;
+    cursor: pointer;
+}
+
+.sol-toggle-mode-label,
+.op-toggle-mode-label {
+    font-weight: bold;
+    font-size: 12px;
+}

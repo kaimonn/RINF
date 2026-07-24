@@ -1,5 +1,5 @@
 // data/xml_loader.js
-import { setMultiValueParams } from '/js/state.js';
+import { setMultiValueParams } from '../js/state.js';
 
 
 let _index   = null;   // Map — 一度だけ構築

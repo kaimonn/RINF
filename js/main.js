@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         //await initRINFLoader('data/RINF_Sp92v2.xml');    
-        await initRINFLoader('data/rinf-20260707-141059_RDF.nt');    
+        await initRINFLoader('https://pub-a50a894fa5b3496ca51afa88da6aaa12.r2.dev/rinf-20260707-141059_RDF.nt');    
         console.log('XML RINF chargé et indexé.');
 
         updateLoadingMessage('Chargement des sections SOL...');

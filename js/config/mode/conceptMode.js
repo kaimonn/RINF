@@ -1,5 +1,5 @@
 // config/mode/conceptMode.js
-import { rinfParams } from '/../../../data/rinf_parameters_final.js';
+import { rinfParams } from '../../../data/rinf_parameters_final.js';
 import {
     // SOL 用
     getCategoryVisibility,

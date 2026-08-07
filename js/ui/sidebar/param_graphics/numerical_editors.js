@@ -1,5 +1,5 @@
 // ui/sidebar/param_graphics/numerical_editors.js
-import { COLOR_MODES } from '../../../config/colorModes.js';
+import { COLOR_MODES } from '/../../../config/colorModes.js';
 import {
     getBreakValues,
     getSpecialValues,

@@ -1,6 +1,6 @@
 // ui/sidebar/graphic_parameters_panel.js
 
-import { COLOR_MODES } from '/../../config/colorModes.js';
+import { COLOR_MODES } from '../../config/colorModes.js';
 import {
     // SOL
     getCurrentColorMode, setCurrentColorMode,

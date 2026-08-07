@@ -1,9 +1,9 @@
 // ui/sidebar/param_graphics/numerical_editors.js
-import { COLOR_MODES } from '/../../../config/colorModes.js';
+import { COLOR_MODES } from '../../../config/colorModes.js';
 import {
     getBreakValues,
     getSpecialValues,
-} from '/js/config/breakValues.js';
+} from '../../../config/breakValues.js';
 
 // breaks エディタの HTML 生成だけ担当
 export function renderBreaksEditor(scope, modeId) {
